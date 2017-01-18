@@ -32,6 +32,7 @@ export default class App extends Component {
     this.createCards = this.createCards.bind(this);
 
     this.createCards(CARD_DECK);
+    this.shuffleCards();
   }
 
   flipCard(index) {
@@ -54,8 +55,27 @@ export default class App extends Component {
     }
   }
 
-  shuffleCards
+  /*
+  * Shuffle cards
+  */
+  shuffleCards() {
+    let i, temp, position;
+    let cardDeck = this.state.cards.slice();
+    for(i = cardDeck.length; i; i--) {
+      position = Math.floor(Math.random() * i);
+      temp = cardDeck[i-1];
+      cardDeck[i-1] = cardDeck[position];
+      cardDeck[position] = temp;
+    }
+    this.state.cards = cardDeck;
+    //this.setState({
+      //cards: cardDeck
+    //})
+  }
 
+  /*
+  * Create cards
+  */
   createCards(cardDeck) {
     let counter = 0;
     let arr = [];
@@ -66,7 +86,7 @@ export default class App extends Component {
           id: counter,
           image: cardDeck[i].image,
           name: cardDeck[i].name,
-          open: false,
+          open: true,
         }
         counter++;
       }
