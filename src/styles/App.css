@@ -18,6 +18,24 @@
   font-size: large;
 }
 
+.App-cards {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 800px;
+
+  transition: all 200ms;
+}
+
+.cardFlipped {
+
+}
+
+.App-cards .App-card img {
+  display: block;
+  width: 100px;
+  height: auto;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

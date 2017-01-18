@@ -3,14 +3,12 @@ import React, { Component } from 'react';
 //images
 import logo from '../../img/logo/logo.png';
 //styles
-import bulbasaur from '../../img/game/bulbasaur.png';
-import squirtle from '../../img/game/squirtle.png';
-//images
 import '../styles/App.css';
 //components
 import GameBoard from '../components/GameBoard';
+import Card from '../components/Card';
+import CARD_DECK from '../components/CardDeck';
 //import CurrentScore from '../components/CurrentScore';
-
 
 /*
 * App
@@ -21,32 +19,7 @@ export default class App extends Component {
 
     //states
     this.state = {
-      cards: [
-        {
-          id: 1,
-          name: "bulbasaur",
-          image: bulbasaur,
-          open: false,
-        },
-        {
-          id: 2,
-          name: "bulbasaur",
-          image: bulbasaur,
-          open: false,
-        },
-        {
-          id: 3,
-          name: "squirtle",
-          image: squirtle,
-          open: false,
-        },
-        {
-          id: 4,
-          name: "squirtle",
-          image: squirtle,
-          open: false,
-        }
-      ],
+      cards: [],
       score: 0,
       click: 0,
       time: 0,
@@ -56,6 +29,9 @@ export default class App extends Component {
 
     //bind methods
     this.flipCard = this.flipCard.bind(this);
+    this.createCards = this.createCards.bind(this);
+
+    this.createCards(CARD_DECK);
   }
 
   flipCard(index) {
@@ -75,11 +51,28 @@ export default class App extends Component {
         this.state.compare = [];
       }
       this.setState(this.state);
-      //console.log(this.state);
     }
   }
 
+  shuffleCards
 
+  createCards(cardDeck) {
+    let counter = 0;
+    let arr = [];
+
+    for(let i = 0; i < cardDeck.length; i++) {
+      for(let j = 0; j < 2; j++) {
+        arr[counter] = {
+          id: counter,
+          image: cardDeck[i].image,
+          name: cardDeck[i].name,
+          open: false,
+        }
+        counter++;
+      }
+    }
+    this.state.cards = arr;
+  }
 
   render() {
     return (
@@ -89,7 +82,18 @@ export default class App extends Component {
           <h2>Pokémon Memory</h2>
         </div>
 
-        <GameBoard cards={this.state.cards} flipCard={this.state.flipCard} />
+        <GameBoard>
+          {this.state.cards.map((card, index) => {
+            return(
+              <Card
+                image={card.image}
+                open={card.open}
+                key={index}
+                onFlip={() => this.flipCard(index)}
+              />
+            )
+          })}
+        </GameBoard>
 
       </div>
     );
