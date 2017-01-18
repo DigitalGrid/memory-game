@@ -22,12 +22,11 @@
   display: flex;
   flex-wrap: wrap;
   max-width: 800px;
-
-  transition: all 200ms;
 }
 
 .cardFlipped {
-
+  transition: all 200ms;
+  transform: rotateY(180deg);
 }
 
 .App-cards .App-card img {
