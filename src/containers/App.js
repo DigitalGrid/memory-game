@@ -30,47 +30,66 @@ export default class App extends Component {
     //bind methods
     this.flipCard = this.flipCard.bind(this);
     this.createCards = this.createCards.bind(this);
-
-    this.createCards(CARD_DECK);
-    this.shuffleCards();
   }
 
+  componentWillMount() {
+    let cards = this.createCards(CARD_DECK);
+    cards = this.shuffleCards(cards);
+
+    this.setState({
+      cards: cards
+    })
+  }
+
+  /*
+  * flip card
+  */
   flipCard(index) {
-    if(this.state.cards[index].open === false) {
-      this.state.click += 1;
-      this.state.cards[index].open = true;
-      this.state.compare.push(this.state.cards[index]);
-      if(this.state.compare.length === 2) {
-        if(this.state.compare[0].name === this.state.compare[1].name) {
-          this.state.score += 10;
-          this.state.cleared.push(this.state.compare[0]);
+    let click = this.state.click;
+    let cards = this.state.cards;
+    let compare = this.state.compare;
+    let score = this.state.score;
+    let cleared = this.state.cleared;
+
+    if(cards[index].open === false) {
+      click += 1;
+      cards[index].open = true;
+      compare.push(cards[index]);
+
+      if(compare.length === 2) {
+        if(compare[0].name === compare[1].name) {
+          score += 10;
+          cleared.push(compare[0]);
         } else {
-          this.state.score -= 2;
-          this.state.compare[0].open = false;
-          this.state.compare[1].open = false;
+          score -= 2;
+          compare[0].open = false;
+          compare[1].open = false;
         }
-        this.state.compare = [];
+        compare = [];
       }
-      this.setState(this.state);
+
+      this.setState({
+        click: click,
+        cards: cards,
+        compare: compare,
+        score: score,
+        cleared: cleared
+      });
     }
   }
 
   /*
   * Shuffle cards
   */
-  shuffleCards() {
+  shuffleCards(cardDeck) {
     let i, temp, position;
-    let cardDeck = this.state.cards.slice();
     for(i = cardDeck.length; i; i--) {
       position = Math.floor(Math.random() * i);
       temp = cardDeck[i-1];
       cardDeck[i-1] = cardDeck[position];
       cardDeck[position] = temp;
     }
-    this.state.cards = cardDeck;
-    //this.setState({
-      //cards: cardDeck
-    //})
+    return cardDeck;
   }
 
   /*
@@ -86,12 +105,12 @@ export default class App extends Component {
           id: counter,
           image: cardDeck[i].image,
           name: cardDeck[i].name,
-          open: true,
+          open: false,
         }
         counter++;
       }
     }
-    this.state.cards = arr;
+    return arr;
   }
 
   render() {
