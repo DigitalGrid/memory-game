@@ -6,19 +6,16 @@ import pokeball from '../../img/logo/logo.png';
 
 // decides if game image should be faced up or down
 const Card = props => {
-	let image = "";
-	let classes = ["App-card"]
+	let classes = ["App-card"];
 
-	if (props.open === false) {
-		image = pokeball;
-	} else {
-		image = props.image;
+	if (props.open === true) {
 		classes.push("cardFlipped");
 	}
 
 	return (
 		<div className={classes.join(' ')} onClick={props.onFlip}>
-			<img src={image} />
+			<img src={pokeball} />
+			<img src={props.image} />
 		</div>
 	)
 }
