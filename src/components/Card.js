@@ -1,10 +1,9 @@
 //libraries
 import React, { PropTypes } from 'react';
 
+//images
 import pokeball from '../../img/logo/logo.png';
 
-
-// decides if game image should be faced up or down
 const Card = props => {
 	let classes = ["App-card"];
 
@@ -19,5 +18,12 @@ const Card = props => {
 		</div>
 	)
 }
+
+Card.propTypes = {
+	id: PropTypes.number.isRequired,
+	image: PropTypes.string.isRequired,
+  open: PropTypes.bool.isRequired,
+	onFlip: PropTypes.func.isRequired
+};
 
 export default Card;
