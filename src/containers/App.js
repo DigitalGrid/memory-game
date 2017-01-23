@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 //images
 import logo from '../../img/logo/logo.png';
+import pokemonLogo from '../../img/logo/pokemon-logo.png'
 //styles
 import '../styles/App.css';
 //components
@@ -209,7 +210,10 @@ export default class App extends Component {
         {popup}
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Pokémon Memory</h2>
+          <div className="App-heading">
+            <img src={pokemonLogo} className="Pokemon-logo" alt="pokemon-logo" />
+            <h2>Pokémon Memory</h2>
+          </div>
         </div>
 
         <GameBoard>
