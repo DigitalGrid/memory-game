@@ -10,6 +10,18 @@ import CurrentScore from '../components/CurrentScore';
 import Card from '../components/Card';
 import CARD_DECK from '../components/CardDeck';
 //import CurrentScore from '../components/CurrentScore';
+import GameFinish from '../components/GameFinish';
+
+const initialState = {
+  cards: [],
+  score: 0,
+  clicks: 0,
+  time: 0,
+  compare: [],
+  cleared: [],
+  locked: false,
+  gameFinished: false,
+}
 
 /*
 * App
@@ -19,15 +31,7 @@ export default class App extends Component {
     super();
 
     //states
-    this.state = {
-      cards: [],
-      score: 0,
-      clicks: 0,
-      time: 0,
-      compare: [],
-      cleared: [],
-      locked: false
-    }
+    this.state = initialState;
 
     //bind methods
     this.flipCard = this.flipCard.bind(this);
@@ -36,15 +40,13 @@ export default class App extends Component {
     this.incClick = this.incClick.bind(this);
     this.compareCards = this.compareCards.bind(this);
     this.renderCards = this.renderCards.bind(this);
+    this.restartGame = this.restartGame.bind(this);
   }
 
   componentWillMount() {
     let cards = this.createCards(CARD_DECK);
     cards = this.shuffleCards(cards);
-
-    this.setState({
-      cards: cards
-    })
+    this.setState({cards: cards});
   }
 
   /*
@@ -98,12 +100,16 @@ export default class App extends Component {
   compareCards(firstCard, secondCard) {
     let cleared = this.state.cleared.slice();
     let cards = this.state.cards.slice();
+    let gameFinished = false;
     this.setState({locked: true});
 
     if(firstCard.name === secondCard.name) {
       cleared.push({id: firstCard.id, name: firstCard.name});
+      if(cleared.length === cards.length/2) {
+        gameFinished = true;
+      }
       this.updateScore(10);
-      this.setState({cleared: cleared, compare: [], locked: false});
+      this.setState({cleared: cleared, compare: [], locked: false, gameFinished: gameFinished});
     } else {
       setTimeout(() => {
         cards[firstCard.id].open = false;
@@ -150,6 +156,37 @@ export default class App extends Component {
     return arr;
   }
 
+  /*
+  * show endscore
+  */
+  showEndScore() {
+    this.setState({
+      gameFinished: true
+    });
+  }
+
+  /*
+  * hide endscore
+  */
+  hideEndScore() {
+    this.setState({
+      gameFinished: false
+    });
+  }
+
+  /*
+  * restart game
+  */
+  restartGame() {
+    //reset state
+    this.setState(initialState);
+    //build cards
+    let cards = this.createCards(CARD_DECK);
+    cards = this.shuffleCards(cards);
+    this.setState({cards: cards});
+
+  }
+
   renderCards(cards) {
     return cards.map((card, index) => {
       return(
@@ -165,8 +202,11 @@ export default class App extends Component {
   }
 
   render() {
+    const popup = (this.state.gameFinished ? <GameFinish score={this.state.score} clicks={this.state.clicks} restartGame={this.restartGame} /> : null);
+
     return (
       <div className="App">
+        {popup}
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Pokémon Memory</h2>
