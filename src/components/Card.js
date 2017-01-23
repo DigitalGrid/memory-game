@@ -13,8 +13,8 @@ const Card = props => {
 
 	return (
 		<div className={classes.join(' ')} onClick={() => {props.onFlip(props.id)}}>
-			<img src={pokeball} />
-			<img src={props.image} />
+			<img className="pokeball" src={pokeball} />
+			<img className="pokemon" src={props.image} />
 		</div>
 	)
 }

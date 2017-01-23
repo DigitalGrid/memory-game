@@ -30,6 +30,10 @@
   max-width: 800px;
 }
 
+.App-cards:hover {
+  cursor: pointer;
+}
+
 .cardFlipped .pokemon {
   animation-fill-mode: forwards;
   animation-name: pokemon;
