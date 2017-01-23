@@ -1,6 +1,7 @@
 //libraries
 import React, { PropTypes } from 'react';
 
+//images
 import pokeball from '../../img/logo/logo.png';
 
 const Card = props => {
@@ -11,11 +12,18 @@ const Card = props => {
 	}
 
 	return (
-		<div className={classes.join(' ')} onClick={props.onFlip}>
-			<img className="pokeball" src={pokeball} />
-			<img className="pokemon" src={props.image} />
+		<div className={classes.join(' ')} onClick={() => {props.onFlip(props.id)}}>
+			<img src={pokeball} />
+			<img src={props.image} />
 		</div>
 	)
 }
+
+Card.propTypes = {
+	id: PropTypes.number.isRequired,
+	image: PropTypes.string.isRequired,
+  open: PropTypes.bool.isRequired,
+	onFlip: PropTypes.func.isRequired
+};
 
 export default Card;

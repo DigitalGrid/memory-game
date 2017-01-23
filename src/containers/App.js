@@ -22,15 +22,20 @@ export default class App extends Component {
     this.state = {
       cards: [],
       score: 0,
-      click: 0,
+      clicks: 0,
       time: 0,
       compare: [],
       cleared: [],
+      locked: false
     }
 
     //bind methods
     this.flipCard = this.flipCard.bind(this);
     this.createCards = this.createCards.bind(this);
+    this.updateScore = this.updateScore.bind(this);
+    this.incClick = this.incClick.bind(this);
+    this.compareCards = this.compareCards.bind(this);
+    this.renderCards = this.renderCards.bind(this);
   }
 
   componentWillMount() {
@@ -46,36 +51,66 @@ export default class App extends Component {
   * flip card
   */
   flipCard(index) {
-    let click = this.state.click;
-    let cards = this.state.cards;
-    let compare = this.state.compare;
-    let score = this.state.score;
-    let cleared = this.state.cleared;
+    let cards = this.state.cards.slice();
+    let compare = this.state.compare.slice();
 
-    if(cards[index].open === false) {
-      click += 1;
+    if(cards[index].open === false && this.state.locked === false) {
+      this.incClick();
       cards[index].open = true;
-      compare.push(cards[index]);
-
-      if(compare.length === 2) {
-        if(compare[0].name === compare[1].name) {
-          score += 10;
-          cleared.push(compare[0]);
-        } else {
-          score -= 2;
-          compare[0].open = false;
-          compare[1].open = false;
-        }
-        compare = [];
-      }
+      compare.push({id: cards[index].id, name: cards[index].name})
 
       this.setState({
-        click: click,
         cards: cards,
-        compare: compare,
-        score: score,
-        cleared: cleared
+        compare: compare
       });
+
+      if(compare.length === 2) {
+        this.compareCards(compare[0], compare[1]);
+      }
+    }
+  }
+
+  /*
+  * update score
+  */
+  updateScore(delta) {
+    let score = this.state.score;
+    score += delta;
+    this.setState({
+      score: score,
+    });
+  }
+
+  /*
+  * increment click
+  */
+  incClick() {
+    let clicks = this.state.clicks;
+    clicks++;
+    this.setState({
+      clicks: clicks,
+    });
+  }
+
+  /*
+  * compare cards
+  */
+  compareCards(firstCard, secondCard) {
+    let cleared = this.state.cleared.slice();
+    let cards = this.state.cards.slice();
+    this.setState({locked: true});
+
+    if(firstCard.name === secondCard.name) {
+      cleared.push({id: firstCard.id, name: firstCard.name});
+      this.updateScore(10);
+      this.setState({cleared: cleared, compare: [], locked: false});
+    } else {
+      setTimeout(() => {
+        cards[firstCard.id].open = false;
+        cards[secondCard.id].open = false;
+        this.updateScore(-2);
+        this.setState({cards: cards, compare: [], locked: false});
+      }, 1000);
     }
   }
  
@@ -88,6 +123,7 @@ export default class App extends Component {
       position = Math.floor(Math.random() * i);
       temp = cardDeck[i-1];
       cardDeck[i-1] = cardDeck[position];
+      cardDeck[i-1].id = i-1;
       cardDeck[position] = temp;
     }
     return cardDeck;
@@ -114,6 +150,20 @@ export default class App extends Component {
     return arr;
   }
 
+  renderCards(cards) {
+    return cards.map((card, index) => {
+      return(
+        <Card
+          id={card.id}
+          image={card.image}
+          open={card.open}
+          key={card.id}
+          onFlip={this.flipCard}
+        />
+      )
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -123,16 +173,7 @@ export default class App extends Component {
         </div>
 
         <GameBoard>
-          {this.state.cards.map((card, index) => {
-            return(
-              <Card
-                image={card.image}
-                open={card.open}
-                key={index}
-                onFlip={() => this.flipCard(index)}
-              />
-            )
-          })}
+          {this.renderCards(this.state.cards)}
         </GameBoard>
 
         <div className="App-score">
