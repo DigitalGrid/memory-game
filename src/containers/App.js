@@ -6,6 +6,7 @@ import logo from '../../img/logo/logo.png';
 import '../styles/App.css';
 //components
 import GameBoard from '../components/GameBoard';
+import CurrentScore from '../components/CurrentScore';
 import Card from '../components/Card';
 import CARD_DECK from '../components/CardDeck';
 //import CurrentScore from '../components/CurrentScore';
@@ -77,7 +78,7 @@ export default class App extends Component {
       });
     }
   }
-
+ 
   /*
   * Shuffle cards
   */
@@ -133,6 +134,12 @@ export default class App extends Component {
             )
           })}
         </GameBoard>
+
+        <div className="App-score">
+          <CurrentScore>
+          </CurrentScore>
+
+        </div>
 
       </div>
     );

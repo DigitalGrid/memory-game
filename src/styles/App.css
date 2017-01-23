@@ -14,6 +14,12 @@
   color: white;
 }
 
+.App-gameBoard {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 800px;
+}
+
 .App-intro {
   font-size: large;
 }
@@ -24,15 +30,46 @@
   max-width: 800px;
 }
 
-.cardFlipped {
-  transition: all 200ms;
-  transform: rotateY(180deg);
+.cardFlipped .pokemon {
+  animation-fill-mode: forwards;
+  animation-name: pokemon;
+  animation-duration: 200ms;
+}
+
+.cardFlipped .pokeball {
+  animation-fill-mode: forwards;
+  animation-name: pokeball;
+  animation-duration: 200ms;
+}
+
+@keyframes pokemon {
+    50%  { transform: rotateY(90deg); }
+    100% { transform: rotateY(0deg); }
+}
+
+@keyframes pokeball {
+    0%  { transform: rotateY(0deg); }
+    50% { transform: rotateY(90deg); }
+    100% { transform: rotateY(90deg); }
 }
 
 .App-cards .App-card img {
+  position: absolute;
   display: block;
   width: 100px;
   height: auto;
+}
+
+.pokeball {
+  transform: rotateY(0deg);
+}
+
+.pokemon {
+  transform: rotateY(90deg);
+}
+
+.App-cards .App-card img:last-child {
+  position: relative;
 }
 
 @keyframes App-logo-spin {
