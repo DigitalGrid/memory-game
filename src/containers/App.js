@@ -212,16 +212,13 @@ export default class App extends Component {
           <h2>Pokémon Memory</h2>
         </div>
 
-        <GameBoard>
-          {this.renderCards(this.state.cards)}
-        </GameBoard>
+        <div className="App-main">
+          <GameBoard>
+            {this.renderCards(this.state.cards)}
+          </GameBoard>
 
-        <div className="App-score">
-          <CurrentScore>
-          </CurrentScore>
-
+          <CurrentScore clicks={this.state.clicks} score={this.state.score} />
         </div>
-
       </div>
     );
   }
