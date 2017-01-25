@@ -14,4 +14,10 @@ const GameFinish = props => {
   );
 }
 
+GameFinish.propTypes = {
+	score: PropTypes.number.isRequired,
+	clicks: PropTypes.number.isRequired,
+	restartGame: PropTypes.func.isRequired,
+};
+
 export default GameFinish

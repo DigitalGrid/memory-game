@@ -7,11 +7,16 @@ const CurrentScore = props => {
 		<div className="App-score">
 			<h2>Score</h2>
 			<ul>
-				<li>Clicks {props.clicks}</li>
 				<li>Score {props.score}</li>
+				<li>Clicks {props.clicks}</li>
 			</ul>
 		</div>
 	)
 }
+
+CurrentScore.propTypes = {
+	score: PropTypes.number.isRequired,
+	clicks: PropTypes.number.isRequired,
+};
 
 export default CurrentScore;

@@ -1,7 +1,6 @@
 //libraries
 import React, { Component } from 'react';
 //images
-import logo from '../../img/logo/logo.png';
 import pokemonLogo from '../../img/logo/pokemon-logo.png'
 //styles
 import '../styles/App.css';
@@ -10,14 +9,12 @@ import GameBoard from '../components/GameBoard';
 import CurrentScore from '../components/CurrentScore';
 import Card from '../components/Card';
 import CARD_DECK from '../components/CardDeck';
-//import CurrentScore from '../components/CurrentScore';
 import GameFinish from '../components/GameFinish';
 
 const initialState = {
   cards: [],
   score: 0,
   clicks: 0,
-  time: 0,
   compare: [],
   cleared: [],
   locked: false,
@@ -185,7 +182,6 @@ export default class App extends Component {
     let cards = this.createCards(CARD_DECK);
     cards = this.shuffleCards(cards);
     this.setState({cards: cards});
-
   }
 
   renderCards(cards) {
@@ -209,11 +205,8 @@ export default class App extends Component {
       <div className="App">
         {popup}
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <div className="App-heading">
-            <img src={pokemonLogo} className="Pokemon-logo" alt="pokemon-logo" />
-            <h2>Pokémon Memory</h2>
-          </div>
+          <img src={pokemonLogo} className="Pokemon-logo" alt="pokemon-logo" />
+          <h2>Memory Game</h2>
         </div>
 
         <div className="App-main">
