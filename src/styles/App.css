@@ -12,11 +12,14 @@
   margin-right: auto;
 
   border-radius: 10px;
+  border: 1px solid #aaa;
 
-  background-color: #aaa;
+  background-color: #333;
 
   text-align: center;
+  color: #eee;
 
+  opacity: 0.95;
   z-index: 10;
 }
 
@@ -26,6 +29,25 @@
 
 .Game-finish button {
   margin-bottom: 20px;
+  width: 80px;
+  height: 40px;
+
+  background-color: #eee;
+
+  border: none;
+  border-radius: 5px;
+
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  color: #000;
+
+}
+
+.Game-finish button:hover {
+  background-color: #bbb;
+
+  cursor: pointer;
 }
 
 .App-header {
